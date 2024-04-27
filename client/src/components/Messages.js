@@ -14,8 +14,9 @@ function Messages() {
         data.map((value, index) => (
           <div key={index}>
             <div>Час: {toLocalTime(value.createdAt)}</div>
-            <div>Телефон: {value.sourceAddr} </div>
-            <div>Текст: {value.message} </div>
+            <div>Телефон: {value.sourceAddr}</div>
+            <div>Дані: {value.message}</div>
+            <div>Метод: {value.method}</div>
             <br />
           </div>
         ))}
