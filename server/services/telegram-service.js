@@ -36,7 +36,7 @@ class TelegramService {
         console.log(result);
         await ctx.reply("Двері відкрито", Markup.removeKeyboard());
       } else {
-        await ctx.reply(`Помилка. Тривога у регіоні "${REGION}" - відсутня`, Markup.removeKeyboard());
+        await ctx.reply(`Помилка. Тривога у "${REGION}" відсутня`, Markup.removeKeyboard());
       }
     });
 
