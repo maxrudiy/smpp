@@ -13,7 +13,7 @@ class TelegramService {
     bot.command("open", (ctx) => {
       return ctx.reply(
         "Залиште свій номер телефону",
-        Markup.keyboard([Markup.button.contactRequest("Надати мій телефон")]).resize()
+        Markup.keyboard([Markup.button.contactRequest("Надати мій номер телефону")]).resize()
       );
     });
 
@@ -24,7 +24,8 @@ class TelegramService {
       const userId = ctx.message.contact.user_id;
       await MessageModel.create({
         sourceAddr: contact,
-        message: `Telegram: ${firstName} ${lastName} user_id: ${userId}`,
+        method: "Telegram",
+        message: `${firstName} ${lastName} ${userId}`,
       });
       const result = await ControllerService.openDoor();
       console.log(result);

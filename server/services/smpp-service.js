@@ -41,7 +41,7 @@ const smppService = () => {
         session.deliver_sm_resp({ sequence_number: pdu.sequence_number });
 
         const message = pdu.short_message.message;
-        await MessageModel.create({ sourceAddr: pdu.source_addr, message: `SMPP: ${message}` });
+        await MessageModel.create({ sourceAddr: pdu.source_addr, method: "SMPP", message: `${message}` });
 
         const result = await ControllerService.openDoor();
         console.log(result);
