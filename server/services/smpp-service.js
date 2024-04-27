@@ -8,12 +8,6 @@ const SMPP_PORT = process.env.SMPP_PORT;
 const SMPP_SYSTEM_ID = process.env.SMPP_SYSTEM_ID;
 const SMPP_PASSWORD = process.env.SMPP_PASSWORD;
 
-//ACCESS CONTROLLER
-const CONTROLLER_IP = process.env.CONTROLLER_IP;
-const CONTROLLER_PORT = process.env.CONTROLLER_PORT;
-const CONTROLLER_ID = process.env.CONTROLLER_ID;
-const DOOR = process.env.DOOR;
-
 const smppService = () => {
   try {
     const session = smpp.connect({
@@ -47,9 +41,9 @@ const smppService = () => {
         session.deliver_sm_resp({ sequence_number: pdu.sequence_number });
 
         const message = pdu.short_message.message;
-        await MessageModel.create({ sourceAddr: pdu.source_addr, message });
+        await MessageModel.create({ sourceAddr: pdu.source_addr, message: `SMPP: ${message}` });
 
-        const result = await ControllerService.openDoor(CONTROLLER_IP, CONTROLLER_PORT, CONTROLLER_ID, DOOR);
+        const result = await ControllerService.openDoor();
         console.log(result);
       }
     });
