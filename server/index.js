@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { messagesRoutes } from "./routes/messages-routes.js";
 import { smppService } from "./services/smpp-service.js";
 import TelegramService from "./services/telegram-service.js";
+import AlarmService from "./services/alarm-service.js";
 
 const PORT = process.env.PORT || 5001;
 
@@ -37,8 +38,11 @@ const start = async () => {
       });
       mongoose.connection.on("error", (err) => reject(err));
     });
+
     smppService();
+    AlarmService.getAlarms()
     TelegramService.bot();
+    
     app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));
   } catch (err) {
     console.log(err);
