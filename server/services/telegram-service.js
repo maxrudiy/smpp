@@ -14,7 +14,7 @@ class TelegramService {
 
     bot.command("open", (ctx) => {
       return ctx.reply(
-        "Залиште свій номер телефону",
+        'Натисніть кнопку "Надати мій номер телефону" нижче',
         Markup.keyboard([Markup.button.contactRequest("Надати мій номер телефону")]).resize()
       );
     });
@@ -24,7 +24,7 @@ class TelegramService {
       const firstName = ctx.message.contact.first_name;
       const lastName = ctx.message.contact.last_name;
       const userId = ctx.message.contact.user_id;
-      await MessageModel.create({
+      const messageData = await MessageModel.create({
         sourceAddr: contact,
         method: "Telegram",
         message: `Ім'я: ${firstName}, прізвище: ${lastName}, id: ${userId}`,
@@ -33,9 +33,12 @@ class TelegramService {
       const alarmData = await AlarmModel.findOne({ region: REGION });
       if (alarmData.ongoingAlarm) {
         const result = await ControllerService.openDoor();
-        console.log(result);
+        messageData.result = true;
+        await messageData.save();
         await ctx.reply("Двері відкрито", Markup.removeKeyboard());
       } else {
+        messageData.result = false;
+        await messageData.save();
         await ctx.reply(`Помилка. Тривога у "${REGION}" відсутня`, Markup.removeKeyboard());
       }
     });

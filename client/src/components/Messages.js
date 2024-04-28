@@ -12,7 +12,7 @@ function Messages() {
     <>
       {data &&
         data.map((value, index) => (
-          <div key={index}>
+          <div key={index} style={value.result ? { color: "green" } : { color: "red" }}>
             <div>Час: {toLocalTime(value.createdAt)}</div>
             <div>Телефон: {value.sourceAddr}</div>
             <div>Дані: {value.message}</div>
