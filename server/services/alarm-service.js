@@ -23,13 +23,10 @@ class AlarmService {
 
     setInterval(async () => {
       const data = await fetchAlarms();
-      const result = await AlarmModel.findOneAndUpdate(
-        { region: REGION },
-        { ongoingAlarm: data.states[REGION].alertnow },
-        { new: true }
-      );
+      const ongoingAlarm = data.states[REGION] === undefined ? true : data.states[REGION].alertnow;
+      const result = await AlarmModel.findOneAndUpdate({ region: REGION }, { ongoingAlarm }, { new: true });
       console.log(result);
-    }, 5000);
+    }, 10000);
   }
 }
 
