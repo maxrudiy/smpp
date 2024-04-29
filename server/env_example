@@ -11,3 +11,4 @@ DOOR=
 TELEGRAM_BOT_API_KEY=
 REGION=м. Київ
 ALARM_URL=http://ubilling.net.ua/aerialalerts/
+ADMINS=+380*,+380*
