@@ -6,6 +6,20 @@ import AlarmModel from "../models/alarm-model.js";
 const ADMINS = process.env.ADMINS.split(",");
 const REGION = process.env.REGION;
 
+const formattedMessagesFunction = (messages) => {
+  let formattedMessages = "";
+  for (const message of messages) {
+    formattedMessages += `
+Час: ${message.createdAt.toLocaleString("uk-UA")} 
+Телефон: ${message.sourceAddr}
+Дані: ${message.message}
+Метод: ${message.method}
+Доступ: ${message.result}
+`;
+  }
+  return formattedMessages;
+};
+
 const getMessagesScene = new Scenes.WizardScene(
   "GET_MESSAGES",
   (ctx) => {
@@ -24,20 +38,13 @@ const getMessagesScene = new Scenes.WizardScene(
       return;
     } else if (ADMINS.includes(ctx.message.contact.phone_number)) {
       const messages = await MessageModel.find().sort({ createdAt: -1 }).limit(20);
-
-      let formattedMessages = "";
-      for (const message of messages) {
-        formattedMessages += `
-Час: ${message.createdAt.toLocaleString("uk-UA")} 
-Телефон: ${message.sourceAddr}
-Дані: ${message.message}
-Метод: ${message.method}
-Доступ: ${message.result}
-`;
+      if (messages.length === 0) {
+        ctx.reply("Відвідувачі відсутні", Markup.removeKeyboard());
+        return ctx.scene.leave();
+      } else {
+        ctx.reply(formattedMessagesFunction(messages), Markup.removeKeyboard());
+        return ctx.scene.leave();
       }
-
-      ctx.reply(formattedMessages, Markup.removeKeyboard());
-      return ctx.scene.leave();
     } else {
       ctx.reply("Доступ відсутній", Markup.removeKeyboard());
       return ctx.scene.leave();
