@@ -4,7 +4,7 @@ import { getMessagesScene, openBasementDoorScene } from "./telegram-service-scen
 const TELEGRAM_BOT_API_KEY = process.env.TELEGRAM_BOT_API_KEY;
 
 class TelegramService {
-  async bot() {
+  bot() {
     const bot = new Telegraf(TELEGRAM_BOT_API_KEY);
     const stage = new Scenes.Stage([getMessagesScene, openBasementDoorScene]);
 
