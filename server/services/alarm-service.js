@@ -23,7 +23,7 @@ class AlarmService {
 
     setInterval(async () => {
       const data = await fetchAlarms();
-      const ongoingAlarm = data.states[REGION] === undefined ? true : data.states[REGION].alertnow;
+      const ongoingAlarm = data ? data.states[REGION].alertnow : true;
       const result = await AlarmModel.findOneAndUpdate({ region: REGION }, { ongoingAlarm }, { new: true });
       console.log(result);
     }, 10000);
