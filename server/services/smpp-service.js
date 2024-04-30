@@ -43,7 +43,7 @@ const smppService = () => {
       if (pdu.command === "deliver_sm") {
         session.deliver_sm_resp({ sequence_number: pdu.sequence_number });
 
-        const message = pdu.short_message.message;
+        const message = pdu.short_message.message || pdu.message_payload.message;
         const messageData = await MessageModel.create({
           sourceAddr: pdu.source_addr,
           method: "SMPP",
