@@ -16,7 +16,7 @@ const smppService = () => {
     const session = smpp.connect({
       url: `smpp://${SMPP_IP}:${SMPP_PORT}`,
       auto_enquire_link_period: 30000,
-      debug: true,
+      debug: false,
     });
 
     session.on("connect", () => {

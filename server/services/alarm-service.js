@@ -22,10 +22,13 @@ class AlarmService {
     }
 
     setInterval(async () => {
-      const data = await fetchAlarms();
-      const ongoingAlarm = data ? data.states[REGION].alertnow : true;
-      const result = await AlarmModel.findOneAndUpdate({ region: REGION }, { ongoingAlarm }, { new: true });
-      console.log(result);
+      try {
+        const data = await fetchAlarms();
+        const ongoingAlarm = data ? data.states[REGION].alertnow : true;
+        const result = await AlarmModel.findOneAndUpdate({ region: REGION }, { ongoingAlarm }, { new: true });
+      } catch (err) {
+        console.log(err);
+      }
     }, 10000);
   }
 }
